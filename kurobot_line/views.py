@@ -20,8 +20,10 @@ def index(request):
 		try:
 			events = parser.parse(body, signature)
 		except InvalidSignatureError:
+			print('InvalidSignatureError')
 			return HttpResponseForbidden()
 		except LineBotApiError:
+			print('LineBotApiError')
 			return HttpResponseBadRequest()
 		for event in events:
 			if isinstance(event, MessageEvent):
@@ -32,9 +34,11 @@ def index(request):
 						TextSendMessage(text=event.message.text)
 						)
 					except LineBotApiError as e:
+						print('LineBotApiError as e')
 						print(e.status_code)
 						print(e.error.message)
 						print(e.error.details)
 		return HttpResponse()
 	else:
+		print('HttpResponseBadRequest')
 		return HttpResponseBadRequest()
