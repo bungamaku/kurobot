@@ -12,6 +12,8 @@ Deployment:
         - export HEROKU_API_KEY=$HEROKU_APIKEY
         - heroku config:set --app $HEROKU_APPNAME SECRET_KEY=$SECRET_KEY
         - heroku run --app $HEROKU_APPNAME migrate
+        - heroku config:set --app $HEROKU_APPNAME LINE_CHANNEL_SECRET=$LINE_CHANNEL_SECRET
+        - heroku config:set --app $HEROKU_APPNAME LINE_CHANNEL_ACCESS_TOKEN=$LINE_CHANNEL_ACCESS_TOKEN
     environment:
         name: production
         url: $HEROKU_APP_HOST
