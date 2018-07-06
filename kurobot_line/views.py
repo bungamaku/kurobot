@@ -28,13 +28,17 @@ def index(request):
 		for event in events:
 			if isinstance(event, MessageEvent):
 				if isinstance(event.message, TextMessage):
+					translation = ''
+					for word in event.message.text.split():
+						query = parse.urlencode({"client": "gtx", "sl":"auto", "tl":"en", "dt": "t", "q": word})
+						tword = json.loads(requests.get("https://translate.googleapis.com/translate_a/single?" + query).text)[0][0][0]
+						translation += tword + ' '
 					try:
 						line_bot_api.reply_message(
-						event.reply_token,
-						TextSendMessage(text=str(event.message.text) + ' njir')
-						)
+							event.reply_token,
+							TextSendMessage(text=translation[:-1])
+							)
 					except LineBotApiError as e:
-						print('LineBotApiError as e')
 						print(e.status_code)
 						print(e.error.message)
 						print(e.error.details)
